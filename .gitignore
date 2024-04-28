@@ -1,0 +1,11 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/TorcBooks/.vs/TorcBooks
+/TorcBooks/TorcBooks/obj
+/TorcBooks/bin/Debug
+/TorcBooks/obj
+/TorcBooks/TorcBooks/bin/Debug/net7.0
+/TorcBooks/TorcBooks.Integration.Tests/bin/Debug/net7.0
+/TorcBooks/TorcBooks.Integration.Tests/obj
