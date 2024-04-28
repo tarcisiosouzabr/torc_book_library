@@ -7,7 +7,6 @@ using System.Net;
 using System.Net.Http.Json;
 using TorcBooks.Data;
 using TorcBooks.Data.Entities;
-using TorcBooks.Integration.Tests.Infra;
 using TorcBooks.Integration.Tests.Models;
 
 namespace TorcBooks.Integration.Tests
@@ -31,7 +30,6 @@ namespace TorcBooks.Integration.Tests
             var httpCient = webApplicationFactory.WithWebHostBuilder(builder =>
             {
                 builder.UseEnvironment("Test");
-                builder.ConfigureTestServices(TestOrchestrator.ClearDatabase);
             }).CreateDefaultClient();
 
             var response = await httpCient.GetAsync($"api/books?searchBy={searchBy}&searchValue={searchValue}");
@@ -54,7 +52,6 @@ namespace TorcBooks.Integration.Tests
             var httpCient = webApplicationFactory.WithWebHostBuilder(builder =>
             {
                 builder.UseEnvironment("Test");
-                builder.ConfigureTestServices(TestOrchestrator.ClearDatabase);
             }).CreateDefaultClient();
 
             var response = await httpCient.GetAsync($"api/books?searchBy={searchBy}&searchValue={searchValue}");
