@@ -1,14 +1,24 @@
 using FluentAssertions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.AspNetCore.TestHost;
+using Microsoft.EntityFrameworkCore;
 using System.Net;
 using System.Net.Http.Json;
+using TorcBooks.Data;
+using TorcBooks.Data.Entities;
+using TorcBooks.Integration.Tests.Infra;
 using TorcBooks.Integration.Tests.Models;
 
 namespace TorcBooks.Integration.Tests
 {
     public class BooksControllerTests
     {
+        public BooksControllerTests()
+        {
+
+        }
+
         [Theory]
         [InlineData("title", "Pride")]
         [InlineData("authors", "Lewis")]
@@ -18,7 +28,11 @@ namespace TorcBooks.Integration.Tests
         public async Task Get_ShouldReturn200WithResults(string searchBy, string searchValue)
         {
             var webApplicationFactory = new WebApplicationFactory<Program>();
-            var httpCient = webApplicationFactory.WithWebHostBuilder(builder => builder.UseEnvironment("Test")).CreateDefaultClient();
+            var httpCient = webApplicationFactory.WithWebHostBuilder(builder =>
+            {
+                builder.UseEnvironment("Test");
+                builder.ConfigureTestServices(TestOrchestrator.ClearDatabase);
+            }).CreateDefaultClient();
 
             var response = await httpCient.GetAsync($"api/books?searchBy={searchBy}&searchValue={searchValue}");
             var jsonResponse = await response.Content.ReadFromJsonAsync<GetBooksResponse[]>();
@@ -37,9 +51,11 @@ namespace TorcBooks.Integration.Tests
         public async Task Get_ShouldReturn200WithNoResults(string searchBy, string searchValue)
         {
             var webApplicationFactory = new WebApplicationFactory<Program>();
-            var httpCient = webApplicationFactory
-                .WithWebHostBuilder(builder => builder.UseEnvironment("Test"))
-                .CreateDefaultClient();
+            var httpCient = webApplicationFactory.WithWebHostBuilder(builder =>
+            {
+                builder.UseEnvironment("Test");
+                builder.ConfigureTestServices(TestOrchestrator.ClearDatabase);
+            }).CreateDefaultClient();
 
             var response = await httpCient.GetAsync($"api/books?searchBy={searchBy}&searchValue={searchValue}");
             var jsonResponse = await response.Content.ReadFromJsonAsync<GetBooksResponse[]>();

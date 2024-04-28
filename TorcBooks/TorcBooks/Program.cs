@@ -16,7 +16,7 @@ builder.Services.RegisterRepositories();
 var app = builder.Build();
 
 
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.Equals("Test"))
 {
     app.UseSwagger();
     app.UseSwaggerUI();
