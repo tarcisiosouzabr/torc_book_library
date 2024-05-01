@@ -11,3 +11,5 @@
 /TorcBooks/TorcBooks.Integration.Tests/obj
 /TorcBooks/TorcBooks.Store/bin/Debug/net7.0
 /TorcBooks/TorcBooks.Store/obj
+/TorcBooks/TorcBooks.Common/bin/Debug/net7.0
+/TorcBooks/TorcBooks.Common/obj
