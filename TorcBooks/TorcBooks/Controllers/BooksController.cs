@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using EasyNetQ;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TorcBooks.Data;
+using TorcBooks.Integration;
 
 namespace TorcBooks.Controllers
 {
@@ -33,7 +35,11 @@ namespace TorcBooks.Controllers
         {
             try
             {
-                //publish event
+                string? rabbitConnection = Environment.GetEnvironmentVariable("RABBITMQ");
+                using (var bus = RabbitHutch.CreateBus(rabbitConnection))
+                {
+                    await bus.PubSub.PublishAsync(new IntegrationEvent { Message = "Sended through RabbitMQ" }, "BookCreate");
+                }
                 return Ok();
             }
             catch (Exception e)
