@@ -1,4 +1,4 @@
-﻿using TorcBooks.Data;
+﻿using TorcBooks.DAL;
 
 namespace TorcBooks.Configuration
 {

@@ -1,7 +1,7 @@
 ﻿using EasyNetQ;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using TorcBooks.Data;
+using TorcBooks.DAL;
 using TorcBooks.Integration;
 
 namespace TorcBooks.Controllers
@@ -31,14 +31,14 @@ namespace TorcBooks.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostAsync()
+        public async Task<IActionResult> PostAsync([FromBody] CreateBookEvent request)
         {
             try
             {
                 string? rabbitConnection = Environment.GetEnvironmentVariable("RABBITMQ");
                 using (var bus = RabbitHutch.CreateBus(rabbitConnection))
                 {
-                    await bus.PubSub.PublishAsync(new IntegrationEvent { Message = "Sended through RabbitMQ" }, "BookCreate");
+                    await bus.PubSub.PublishAsync(request, "BookCreate");
                 }
                 return Ok();
             }

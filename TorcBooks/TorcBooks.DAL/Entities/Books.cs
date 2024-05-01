@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace TorcBooks.Data.Entities
+namespace TorcBooks.DAL.Entities
 {
     public class Books
     {
@@ -42,16 +42,16 @@ namespace TorcBooks.Data.Entities
 
         public Books(string title, string firstName, string lastName, int totalCopies, int copiesInUse, string type, string ISBN, string category)
         {
-            this.Title = title;
-            this.FirstName = firstName;
-            this.LastName = lastName;
-            this.TotalCopies = totalCopies;
-            this.CopiesInUse = copiesInUse;
-            this.Type = type;
+            Title = title;
+            FirstName = firstName;
+            LastName = lastName;
+            TotalCopies = totalCopies;
+            CopiesInUse = copiesInUse;
+            Type = type;
             this.ISBN = ISBN;
-            this.Category = category;
+            Category = category;
             var validations = GetValidationResults();
-            if(validations != null && validations.Any())
+            if (validations != null && validations.Any())
             {
                 string?[] errorMessages = validations.Select(x => x.ErrorMessage).ToArray();
                 throw new Exception(string.Join(" - ", errorMessages));
@@ -61,7 +61,7 @@ namespace TorcBooks.Data.Entities
         //For EF Purposes
         protected Books()
         {
-            
+
         }
 
         private IEnumerable<ValidationResult> GetValidationResults()

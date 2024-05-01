@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TorcBooks.Common\TorcBooks.Common.csproj" />
+    <ProjectReference Include="..\TorcBooks.DAL\TorcBooks.DAL.csproj" />
   </ItemGroup>
 
 </Project>

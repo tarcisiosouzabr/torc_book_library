@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 using System.Net.Http.Json;
-using TorcBooks.Data;
-using TorcBooks.Data.Entities;
+using TorcBooks.DAL;
+using TorcBooks.DAL.Entities;
 using TorcBooks.Integration.Tests.Models;
 
 namespace TorcBooks.Integration.Tests
@@ -19,11 +19,11 @@ namespace TorcBooks.Integration.Tests
         }
 
         [Theory]
-        [InlineData("title", "Pride")]
+        [InlineData("title", "Narnia")]
         [InlineData("authors", "Lewis")]
         [InlineData("category", "Fiction")]
-        [InlineData("isbn", "1234567892")]
-        [InlineData("type", "Paperback")]
+        [InlineData("isbn", "8698586")]
+        [InlineData("type", "Fiction")]
         public async Task Get_ShouldReturn200WithResults(string searchBy, string searchValue)
         {
             var webApplicationFactory = new WebApplicationFactory<Program>();

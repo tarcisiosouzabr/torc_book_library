@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using TorcBooks.Configuration;
-using TorcBooks.Data;
+using TorcBooks.DAL;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +16,7 @@ builder.Services.RegisterRepositories();
 var app = builder.Build();
 
 
-if (app.Environment.IsDevelopment() || app.Environment.Equals("Test"))
+if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();

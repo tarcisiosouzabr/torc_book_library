@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TorcBooks.Data.Entities;
+using TorcBooks.DAL.Entities;
 
-namespace TorcBooks.Data
+namespace TorcBooks.DAL
 {
     public class BooksRepository
     {
