@@ -17,7 +17,8 @@ namespace TorcBooks.Controllers
         public async Task<IActionResult> GetAsync([FromQuery] string searchBy, [FromQuery] string searchValue)
         {
             var booksResponse = await _booksRepository.GetAsync(searchBy, searchValue);
-            return Ok(booksResponse.Select(x => new {
+            return Ok(booksResponse.Select(x => new
+            {
                 BookTitle = x.Title,
                 Authors = $"{x.LastName}, {x.FirstName}",
                 x.Type,
@@ -25,6 +26,20 @@ namespace TorcBooks.Controllers
                 x.Category,
                 AvaliableCopies = $"{x.CopiesInUse}/{x.TotalCopies}"
             }).ToList());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> PostAsync()
+        {
+            try
+            {
+                //publish event
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
         }
     }
 }
