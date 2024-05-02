@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using TorcBooks.DAL;
 using TorcBooks.Store.BackgroundServices;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +12,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddHostedService<NewBookEventHandler>();
+
+builder.Services.AddDbContext<TorcDbContext>(op => op.UseSqlServer(builder.Configuration.GetConnectionString(nameof(TorcDbContext))));
 
 var app = builder.Build();
 

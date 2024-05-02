@@ -25,6 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TorcBooks.Common\TorcBooks.Common.csproj" />
     <ProjectReference Include="..\TorcBooks\TorcBooks.csproj" />
   </ItemGroup>
 

@@ -8,31 +8,29 @@ using System.Net.Http.Json;
 using TorcBooks.DAL;
 using TorcBooks.DAL.Entities;
 using TorcBooks.Integration.Tests.Models;
+using TorcBooks.Integration.Tests.Orchestrator;
 
 namespace TorcBooks.Integration.Tests
 {
-    public class BooksControllerTests
+    public class GetBooksControllerTests : IDisposable
     {
-        public BooksControllerTests()
+        public GetBooksControllerTests()
         {
-
+            TestOrchestrator.Instance.CleanDatabase();
+            TestOrchestrator.Instance.AddDummieData().GetAwaiter().GetResult();
         }
 
         [Theory]
         [InlineData("title", "Narnia")]
-        [InlineData("authors", "Lewis")]
+        [InlineData("authors", "Austen")]
         [InlineData("category", "Fiction")]
-        [InlineData("isbn", "8698586")]
-        [InlineData("type", "Fiction")]
+        [InlineData("isbn", "08885468")]
+        [InlineData("type", "Paperback")]
         public async Task Get_ShouldReturn200WithResults(string searchBy, string searchValue)
         {
-            var webApplicationFactory = new WebApplicationFactory<Program>();
-            var httpCient = webApplicationFactory.WithWebHostBuilder(builder =>
-            {
-                builder.UseEnvironment("Test");
-            }).CreateDefaultClient();
+            var httpClient = TestOrchestrator.Instance.GetHttpClient();
 
-            var response = await httpCient.GetAsync($"api/books?searchBy={searchBy}&searchValue={searchValue}");
+            var response = await httpClient.GetAsync($"api/books?searchBy={searchBy}&searchValue={searchValue}");
             var jsonResponse = await response.Content.ReadFromJsonAsync<GetBooksResponse[]>();
 
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -48,18 +46,19 @@ namespace TorcBooks.Integration.Tests
         [InlineData("type", "TarcisioSouza1098")]
         public async Task Get_ShouldReturn200WithNoResults(string searchBy, string searchValue)
         {
-            var webApplicationFactory = new WebApplicationFactory<Program>();
-            var httpCient = webApplicationFactory.WithWebHostBuilder(builder =>
-            {
-                builder.UseEnvironment("Test");
-            }).CreateDefaultClient();
+            var httpClient = TestOrchestrator.Instance.GetHttpClient();
 
-            var response = await httpCient.GetAsync($"api/books?searchBy={searchBy}&searchValue={searchValue}");
+            var response = await httpClient.GetAsync($"api/books?searchBy={searchBy}&searchValue={searchValue}");
             var jsonResponse = await response.Content.ReadFromJsonAsync<GetBooksResponse[]>();
 
             response.StatusCode.Should().Be(HttpStatusCode.OK);
             jsonResponse.Should().NotBeNull();
             jsonResponse.Should().HaveCount(0);
+        }
+
+        public void Dispose()
+        {
+            TestOrchestrator.Instance.CleanDatabase();
         }
     }
 }
